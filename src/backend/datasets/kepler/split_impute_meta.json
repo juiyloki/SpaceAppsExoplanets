@@ -1,0 +1,22 @@
+{
+  "imputer": {
+    "strategy": "mean"
+  },
+  "feat_cols": [
+    "koi_period",
+    "koi_time0bk",
+    "koi_impact",
+    "koi_duration",
+    "koi_depth",
+    "koi_prad",
+    "koi_teq",
+    "koi_insol",
+    "koi_model_snr",
+    "koi_steff",
+    "koi_slogg",
+    "koi_srad"
+  ],
+  "group_key": "kepid",
+  "test_size": 0.2,
+  "random_state": 42
+}

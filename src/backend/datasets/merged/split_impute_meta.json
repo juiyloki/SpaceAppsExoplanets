@@ -1,0 +1,17 @@
+{
+  "imputer": {
+    "strategy": "mean"
+  },
+  "feat_cols": [
+    "period_d",
+    "rp_re",
+    "insol_eflux",
+    "eq_temp",
+    "teff_k",
+    "logg_cgs",
+    "rstar_rsun"
+  ],
+  "group_key": "star_key",
+  "test_size": 0.2,
+  "random_state": 42
+}
