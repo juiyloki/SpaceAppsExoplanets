@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 
-def save_uploaded_csv(uploaded_file, save_dir="../backend/input_data"):
+def save_uploaded_csv(uploaded_file, save_dir="backend/input_data"):
     """
     Save user input in dedicated directory.
     """

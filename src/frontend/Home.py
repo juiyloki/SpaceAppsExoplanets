@@ -5,12 +5,17 @@ import numpy as np
 from PIL import Image
 # from your_model_file import load_model, predict, train_model  # uncomment when ready
 from file_handler import save_uploaded_csv, delete_file_if_exists
-
-import importlib.util
 import sys
 from pathlib import Path
 
-image = Image.open("pictures/logo.png")
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.append(str(project_root))
+
+# Teraz import zadziała:
+from backend.test_models import run_model
+
+image = Image.open("frontend/pictures/logo.png")
 
 # ----- Main Title and Subtitles -----
 st.image(image, use_container_width=True)
@@ -75,7 +80,7 @@ with tab2:
     # Save new uploaded file
     if uploaded_file_test is not None:
         st.session_state.test_file_path = save_uploaded_csv(uploaded_file_test)
-        test_data = pd.read_csv(uploaded_file_test)
+        test_data = pd.read_csv(st.session_state.test_file_path)
         st.write("Test Data Preview:")
         st.dataframe(test_data.head())
 
@@ -85,17 +90,21 @@ with tab2:
                 f"on the CHOSEN dataset ({st.session_state.selected_dataset})..."
             )
             # --- Placeholder predictions ---
-            predictions = np.random.choice([0, 1], size=len(test_data))
-            test_data['Predictions'] = predictions
-            st.success("Predictions complete!")
-            st.dataframe(test_data)
+            run_model(st.session_state.selected_model, st.session_state.selected_dataset)
 
-            # --- Prepare CSV for download ---
-            csv = test_data.to_csv(index=False)
+            # Wczytaj wygenerowane predykcje
+            predictions_path = "backend/outputs/predictions.csv"
+            predictions_df = pd.read_csv(predictions_path)
+            st.success("Predictions complete!")
+            st.write("Predictions Preview:")
+            st.dataframe(predictions_df.head())
+
+            # Przygotuj CSV do pobrania
+            csv_bytes = predictions_df.to_csv(index=False).encode('utf-8')
             st.download_button(
                 label="Download Predictions CSV",
-                data=csv,
-                file_name=f"{st.session_state.selected_dataset}_{st.session_state.selected_model}_predictions.csv",
+                data=csv_bytes,
+                file_name="predictions.csv",
                 mime="text/csv"
             )
 
@@ -123,7 +132,7 @@ with tab3:
     # Save new uploaded file
     if uploaded_file_train is not None:
         st.session_state.train_file_path = save_uploaded_csv(uploaded_file_train)
-        train_data = pd.read_csv(uploaded_file_train)
+        train_data = pd.read_csv(st.session_state.train_file_path)
         st.write("Training Data Preview:")
         st.dataframe(train_data.head())
         if st.button("Train Model", key="train_button"):
