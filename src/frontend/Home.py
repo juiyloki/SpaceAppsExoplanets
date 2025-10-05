@@ -45,14 +45,14 @@ col1, col2 = st.columns(2)
 with col1:
     st.session_state.selected_model = st.selectbox(
         "Choose Model",
-        ["RandomForest", "SVC", "LinearRegression", "Cappucino (Neural Network)"],
+        ["RandomForest", "Stacked (RandomForest + Cappucino)", "Cappucino (Neural Network)"],
         index=0
     )
 
 with col2:
     st.session_state.selected_dataset = st.selectbox(
         "Choose Dataset",
-        ["TESS", "K2", "Kepler", "AllCombined"],
+        ["AllCombined", "TESS (not available at the moment)", "K2 (not available at the moment)", "Kepler (not available at the moment)"],
         index=0
     )
 
