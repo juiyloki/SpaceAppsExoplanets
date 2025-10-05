@@ -6,6 +6,10 @@ from PIL import Image
 # from your_model_file import load_model, predict, train_model  # uncomment when ready
 from file_handler import save_uploaded_csv, delete_file_if_exists
 
+import importlib.util
+import sys
+from pathlib import Path
+
 image = Image.open("pictures/logo.png")
 
 # ----- Main Title and Subtitles -----
