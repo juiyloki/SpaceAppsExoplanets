@@ -54,7 +54,7 @@ with col2:
 st.markdown("---")
 
 # ----- Tabs -----
-tab2, tab3 = st.tabs(["Test Models", "Train Models"])
+tab2, tab3 = st.tabs(["Use Models", "Train Models"])
 
 # ----- Tab 2: Test Models -----
 with tab2:
