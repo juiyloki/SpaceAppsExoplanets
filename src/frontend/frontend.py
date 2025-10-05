@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 # from your_model_file import load_model, predict, train_model  # uncomment when ready
+from file_handler import save_uploaded_csv
 
 image = Image.open("pictures/logo.png")
 
@@ -44,25 +45,25 @@ with col2:
 st.markdown("---")
 
 # ----- Tabs -----
-tab1, tab2, tab3 = st.tabs(["Parse Data", "Test Models", "Train Models"])
+tab2, tab3 = st.tabs([  "Test Models", "Train Models"])
 
-# ----- Tab 1: Parse Data -----
-with tab1:
-    st.header("Parse Data")
-    st.write(
-        f"This tab allows you to parse your data according to the chosen model "
-        f"({st.session_state.selected_model}) trained on the selected dataset "
-        f"({st.session_state.selected_dataset})."
-    )
-    uploaded_file_parse = st.file_uploader("Upload CSV for parsing", type="csv", key="parse")
-    if uploaded_file_parse is not None:
-        data = pd.read_csv(uploaded_file_parse)
-        st.write("Data Preview:")
-        st.dataframe(data.head())
-        st.write(f"Dataset shape: {data.shape}")
-        st.write(
-            f"Using model: {st.session_state.selected_model} trained on dataset: {st.session_state.selected_dataset}"
-        )
+# # ----- Tab 1: Parse Data -----
+# with tab1:
+#     st.header("Parse Data")
+#     st.write(
+#         f"This tab allows you to parse your data according to the chosen model "
+#         f"({st.session_state.selected_model}) trained on the selected dataset "
+#         f"({st.session_state.selected_dataset})."
+#     )
+#     uploaded_file_parse = st.file_uploader("Upload CSV for parsing", type="csv", key="parse")
+#     if uploaded_file_parse is not None:
+#         data = pd.read_csv(uploaded_file_parse)
+#         st.write("Data Preview:")
+#         st.dataframe(data.head())
+#         st.write(f"Dataset shape: {data.shape}")
+#         st.write(
+#             f"Using model: {st.session_state.selected_model} trained on dataset: {st.session_state.selected_dataset}"
+#         )
 
 # ----- Tab 2: Test Models -----
 with tab2:
@@ -73,6 +74,7 @@ with tab2:
     )
     uploaded_file_test = st.file_uploader("Upload CSV for prediction", type="csv", key="test")
     if uploaded_file_test is not None:
+        save_uploaded_csv(uploaded_file_test)  # Saving file
         test_data = pd.read_csv(uploaded_file_test)
         st.write("Test Data Preview:")
         st.dataframe(test_data.head())
@@ -106,6 +108,7 @@ with tab3:
     )
     uploaded_file_train = st.file_uploader("Upload CSV for training", type="csv", key="train")
     if uploaded_file_train is not None:
+        save_uploaded_csv(uploaded_file_train)  # Saving file
         train_data = pd.read_csv(uploaded_file_train)
         st.write("Training Data Preview:")
         st.dataframe(train_data.head())
