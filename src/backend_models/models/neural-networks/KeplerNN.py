@@ -127,8 +127,8 @@ def use_model(model_name):
         preds = (probs > 0.5).int()
 
         results = pd.DataFrame({
-            "probability": probs.cpu().numpy(),
-            "prediction": preds.cpu().numpy()
+            "probability": [f"{p*100:.2f}%" for p in probs.cpu().numpy()],
+            "prediction": ["Exoplanet" if pred == 1 else "False positive" for pred in preds.cpu().numpy()]
         })
         results.insert(0, "index", range(len(results)))
         output_path = "backend_models/outputs/predictions.csv"
