@@ -24,7 +24,7 @@ def run_model(selected_model: str, selected_dataset: str):
     """
     KeplerNN = load_kepler_module()
 
-    if selected_model == "Cappucino" and selected_dataset == "AllCombined":
+    if selected_model == "Cappucino (Neural Network)" and selected_dataset == "AllCombined":
         print("🔭 Uruchamianie modelu Cappucino (AllCombined)...")
         KeplerNN.use_model("neural_network_01")  # dopasowane do Twojego zapisu modelu
     else:
