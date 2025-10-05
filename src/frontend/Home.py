@@ -7,6 +7,7 @@ from PIL import Image
 from file_handler import save_uploaded_csv, delete_file_if_exists
 import sys
 from pathlib import Path
+from cosmic_decor import add_cosmic_background
 
 project_root = Path(__file__).resolve().parent.parent
 if str(project_root) not in sys.path:
@@ -14,6 +15,9 @@ if str(project_root) not in sys.path:
 
 # Teraz import zadziała:
 from backend_models.test_models import run_model
+
+# dodaj tło, animowane gwiazdy, planetę i meteoryty
+add_cosmic_background(animated_stars=70, meteors_count=8)
 
 image = Image.open("frontend/pictures/logo.png")
 
@@ -41,7 +45,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.session_state.selected_model = st.selectbox(
         "Choose Model",
-        ["RandomForest", "SVC", "LinearRegression", "Cappucino"],
+        ["RandomForest", "SVC", "LinearRegression", "Cappucino (Neural Network)"],
         index=0
     )
 
@@ -59,7 +63,7 @@ tab2, tab3 = st.tabs(["Use Models", "Train Models"])
 
 # ----- Tab 2: Test Models -----
 with tab2:
-    st.header("Test Models")
+    st.header("Use Models")
     st.write(
         f"Use the CHOSEN model ({st.session_state.selected_model}) trained on the CHOSEN dataset "
         f"({st.session_state.selected_dataset}) to make predictions."
