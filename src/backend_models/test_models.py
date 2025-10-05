@@ -26,7 +26,7 @@ def run_model(selected_model: str, selected_dataset: str):
 
     if selected_model == "Cappucino" and selected_dataset == "AllCombined":
         print("🔭 Uruchamianie modelu Cappucino (AllCombined)...")
-        KeplerNN.use_model("nn_exoplanets0")  # dopasowane do Twojego zapisu modelu
+        KeplerNN.use_model("neural_network_01")  # dopasowane do Twojego zapisu modelu
     else:
         print(f"❌ Ta kombinacja ({selected_model}, {selected_dataset}) nie jest jeszcze wspierana.")
 
