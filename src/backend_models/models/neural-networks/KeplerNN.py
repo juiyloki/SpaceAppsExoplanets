@@ -71,7 +71,7 @@ def accuracy_fn(y_true, y_pred):
 # Saving and Loading models
 # ==========================================================
 
-MODEL_PATH = Path("backend/saved-models/nn")
+MODEL_PATH = Path("backend_models/saved-models/nn")
 MODEL_PATH.mkdir(parents=True, exist_ok=True)
 
 def SaveModel(model, model_name: str):
@@ -101,7 +101,7 @@ def scaleAndInput(X_new):
     X_new = pd.DataFrame(scaler.fit_transform(X_new), columns=feat_cols)
     return X_new
 
-def load_single_csv(folder_path="backend/input_data/"):
+def load_single_csv(folder_path="backend_models/input_data/"):
     csv_files = [f for f in os.listdir(folder_path) if f.endswith(".csv")]
     if len(csv_files) == 0:
         raise FileNotFoundError(f"Brak pliku CSV w folderze: {folder_path}")
@@ -131,13 +131,13 @@ def use_model(model_name):
             "prediction": preds.cpu().numpy()
         })
         results.insert(0, "index", range(len(results)))
-        output_path = "backend/outputs/predictions.csv"
+        output_path = "backend_models/outputs/predictions.csv"
         results.to_csv(output_path, index=False)
 
         print(f"Zapisano wyniki do pliku: {output_path}")
         print(results.head())
 
-    folder = Path("backend/input_data")
+    folder = Path("backend_models/input_data")
     files = [f for f in folder.iterdir() if f.is_file()]
     if files:
         files[0].unlink()

@@ -7,7 +7,7 @@ def load_kepler_module():
     Zwraca zaimportowany moduł.
     """
     # Upewnij się, że ścieżka wskazuje na plik .py (nie .ipynb)
-    path_to_module = Path("backend/models/neural-networks/KeplerNN.py").resolve()
+    path_to_module = Path("backend_models/models/neural-networks/KeplerNN.py").resolve()
 
     if not path_to_module.exists():
         raise FileNotFoundError(f"Nie znaleziono pliku modułu: {path_to_module}")

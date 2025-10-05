@@ -13,7 +13,7 @@ if str(project_root) not in sys.path:
     sys.path.append(str(project_root))
 
 # Teraz import zadziała:
-from backend.test_models import run_model
+from backend_models.test_models import run_model
 
 image = Image.open("frontend/pictures/logo.png")
 
@@ -93,7 +93,7 @@ with tab2:
             run_model(st.session_state.selected_model, st.session_state.selected_dataset)
 
             # Wczytaj wygenerowane predykcje
-            predictions_path = "backend/outputs/predictions.csv"
+            predictions_path = "backend_models/outputs/predictions.csv"
             predictions_df = pd.read_csv(predictions_path)
             st.success("Predictions complete!")
             st.write("Predictions Preview:")
