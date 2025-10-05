@@ -19,3 +19,10 @@ def save_uploaded_csv(uploaded_file, save_dir="../backend/input_data"):
 
     st.success(f" File saved as: {save_path}")
     return save_path
+
+def delete_file_if_exists(file_path):
+    """Usuwa plik, jeśli istnieje."""
+    if file_path and os.path.exists(file_path):
+        os.remove(file_path)
+        return True
+    return False

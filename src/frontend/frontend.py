@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 # from your_model_file import load_model, predict, train_model  # uncomment when ready
-from file_handler import save_uploaded_csv
+from file_handler import save_uploaded_csv, delete_file_if_exists
 
 image = Image.open("pictures/logo.png")
 
@@ -45,25 +45,7 @@ with col2:
 st.markdown("---")
 
 # ----- Tabs -----
-tab2, tab3 = st.tabs([  "Test Models", "Train Models"])
-
-# # ----- Tab 1: Parse Data -----
-# with tab1:
-#     st.header("Parse Data")
-#     st.write(
-#         f"This tab allows you to parse your data according to the chosen model "
-#         f"({st.session_state.selected_model}) trained on the selected dataset "
-#         f"({st.session_state.selected_dataset})."
-#     )
-#     uploaded_file_parse = st.file_uploader("Upload CSV for parsing", type="csv", key="parse")
-#     if uploaded_file_parse is not None:
-#         data = pd.read_csv(uploaded_file_parse)
-#         st.write("Data Preview:")
-#         st.dataframe(data.head())
-#         st.write(f"Dataset shape: {data.shape}")
-#         st.write(
-#             f"Using model: {st.session_state.selected_model} trained on dataset: {st.session_state.selected_dataset}"
-#         )
+tab2, tab3 = st.tabs(["Test Models", "Train Models"])
 
 # ----- Tab 2: Test Models -----
 with tab2:
@@ -72,9 +54,23 @@ with tab2:
         f"Use the CHOSEN model ({st.session_state.selected_model}) trained on the CHOSEN dataset "
         f"({st.session_state.selected_dataset}) to make predictions."
     )
+
+    # Initialize session_state for saved test file path
+    if "test_file_path" not in st.session_state:
+        st.session_state.test_file_path = None
+
     uploaded_file_test = st.file_uploader("Upload CSV for prediction", type="csv", key="test")
+
+    # Remove file if user clicked X
+    if uploaded_file_test is None and st.session_state.test_file_path:
+        deleted = delete_file_if_exists(st.session_state.test_file_path)
+        if deleted:
+            st.info(f"Plik testowy został usunięty z folderu input_data")
+        st.session_state.test_file_path = None
+
+    # Save new uploaded file
     if uploaded_file_test is not None:
-        save_uploaded_csv(uploaded_file_test)  # Saving file
+        st.session_state.test_file_path = save_uploaded_csv(uploaded_file_test)
         test_data = pd.read_csv(uploaded_file_test)
         st.write("Test Data Preview:")
         st.dataframe(test_data.head())
@@ -106,9 +102,23 @@ with tab3:
         f"Train the CHOSEN model ({st.session_state.selected_model}) on the CHOSEN dataset "
         f"({st.session_state.selected_dataset})."
     )
+
+    # Initialize session_state for saved train file path
+    if "train_file_path" not in st.session_state:
+        st.session_state.train_file_path = None
+
     uploaded_file_train = st.file_uploader("Upload CSV for training", type="csv", key="train")
+
+    # Remove file if user clicked X
+    if uploaded_file_train is None and st.session_state.train_file_path:
+        deleted = delete_file_if_exists(st.session_state.train_file_path)
+        if deleted:
+            st.info(f"Plik treningowy został usunięty z folderu input_data")
+        st.session_state.train_file_path = None
+
+    # Save new uploaded file
     if uploaded_file_train is not None:
-        save_uploaded_csv(uploaded_file_train)  # Saving file
+        st.session_state.train_file_path = save_uploaded_csv(uploaded_file_train)
         train_data = pd.read_csv(uploaded_file_train)
         st.write("Training Data Preview:")
         st.dataframe(train_data.head())
@@ -119,6 +129,4 @@ with tab3:
             )
             # model = train_model(train_data, st.session_state.selected_model)
             st.success("Training complete! Model saved.")
-#%%
-
 #%%
